@@ -38,7 +38,8 @@ grid[5][9].isWall = true;
 grid[5][8].isWall = true;
 grid[5][7].isWall = true;
 grid[5][6].isWall = true;
-grid[5][5].isWall = true;
+// grid[5][5].isWall = true;
+grid[5][4].isWall = true;
 
 let last = astar(start, end);
 
