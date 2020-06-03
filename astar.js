@@ -61,9 +61,7 @@ function astar(start, end) {
 
 	while (open.length > 0) {
 		// current is node with smallest f cost in open list
-		current = _.min(open, node => {
-			return node.f;
-		});
+		current = _.min(open, node => node.f);
 		// Remove current from the open list
 		open.splice(open.indexOf(current), 1);
 		// Push current onto the closed list
