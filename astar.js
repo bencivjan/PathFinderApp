@@ -72,7 +72,7 @@ function astar(start, end) {
 			return current;
 		}
 		let neighbors = getNeighbors(current);
-		for (neighbor of neighbors) {
+		for (let neighbor of neighbors) {
 			if (neighbor.isWall) {
 				// THIS IS ONLY FOR PRINTING/DEBUGGING PURPOSES
 				neighbor.displayVal = "[XXX]";
