@@ -4,6 +4,7 @@
   "description": "Pathfinding web app",
   "main": "app.js",
   "dependencies": {
+    "express": "^4.17.1",
     "underscore": "^1.10.2"
   },
   "devDependencies": {

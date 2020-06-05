@@ -1,9 +1,10 @@
 #canvas {
-	background-color: black;
+	background-color: whitesmoke;
 	padding: 0;
 	margin: auto;
 	display: block;
 	width: 800px;
+	border: 1px solid black;
 }
 
 html,
