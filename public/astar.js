@@ -22,32 +22,32 @@ class Node {
 
 // ALGORITHM
 
-let grid = [ [], [], [], [], [], [], [], [], [], [] ];
+let testGrid = [ [], [], [], [], [], [], [], [], [], [] ];
 
 for (let x = 0; x < 10; x++) {
 	for (let y = 0; y < 10; y++) {
-		grid[x][y] = new Node(false, x, y, "   ");
+		testGrid[x][y] = new Node(false, x, y, "   ");
 	}
 }
 
-let start = grid[0][6];
-let end = grid[9][9];
+let start = testGrid[0][6];
+let end = testGrid[9][9];
 
 //Wall tests
-grid[5][9].isWall = true;
-grid[5][8].isWall = true;
-grid[5][7].isWall = true;
-grid[5][6].isWall = true;
-// grid[5][5].isWall = true;
-grid[5][4].isWall = true;
+testGrid[5][9].isWall = true;
+testGrid[5][8].isWall = true;
+testGrid[5][7].isWall = true;
+testGrid[5][6].isWall = true;
+// testGrid[5][5].isWall = true;
+testGrid[5][4].isWall = true;
 
-let last = astar(start, end);
+let last = astar(testGrid, start, end);
 
 pathTrace(last);
 
-printGrid();
+printGrid(testGrid);
 
-function astar(start, end) {
+function astar(grid, start, end) {
 	let open = [];
 	let closed = [];
 	let current;
@@ -71,7 +71,7 @@ function astar(start, end) {
 		if (current.xCoord === end.xCoord && current.yCoord === end.yCoord) {
 			return current;
 		}
-		let neighbors = getNeighbors(current);
+		let neighbors = getNeighbors(current, grid);
 		for (let neighbor of neighbors) {
 			if (neighbor.isWall) {
 				// THIS IS ONLY FOR PRINTING/DEBUGGING PURPOSES
@@ -108,7 +108,7 @@ function distance(current, destination) {
 	return Math.round(dist * 10) / 10;
 }
 
-function getNeighbors(current) {
+function getNeighbors(current, grid) {
 	let neighbors = [];
 	for (let x = -1; x <= 1; x++) {
 		for (let y = -1; y <= 1; y++) {
@@ -136,7 +136,7 @@ function pathTrace(last) {
 	last.displayVal = "End";
 }
 
-function printGrid() {
+function printGrid(grid) {
 	let printableGrid = [ [], [], [], [], [], [], [], [], [], [] ];
 	for (let x = 0; x < 10; x++) {
 		for (let y = 0; y < 10; y++) {
