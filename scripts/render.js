@@ -11,8 +11,8 @@ let mouse = {
 };
 let cells = 20;
 let gridVals = [];
-let startNode;
-let endNode;
+let startNodeSelect = false;
+let endNodeSelect = false;
 
 class GridNode {
 	constructor(isWall, xCoord, yCoord, path, g = Number.POSITIVE_INFINITY, h = Number.POSITIVE_INFINITY) {
@@ -39,6 +39,7 @@ class GridNode {
 //==================
 
 init();
+animate();
 
 // INITIALIZATION FUNCTION
 function init() {
@@ -49,8 +50,8 @@ function init() {
 
 	// MOUSE MOVE LISTENER
 	window.addEventListener("mousemove", function(event) {
-		mouse.x = event.x;
-		mouse.y = event.y;
+		mouse.x = event.offsetX;
+		mouse.y = event.offsetY;
 	});
 
 	// MOUSE CLICK LISTENER
@@ -64,8 +65,6 @@ function init() {
 				// Check if click happened in this node
 				if (c.isPointInPath(node.path, event.offsetX, event.offsetY)) {
 					node.isWall = !node.isWall;
-					c.clearRect(0, 0, canvas.width, canvas.height);
-					renderGrid();
 					//Break search if we found target
 					break outer;
 				}
@@ -114,6 +113,7 @@ function initGrid(cellNum) {
 	}
 }
 
+// RENDERS GRID
 function renderGrid() {
 	for (let x in gridVals) {
 		for (let y in gridVals[x]) {
@@ -125,6 +125,13 @@ function renderGrid() {
 			if (node.isPath) c.fillStyle = "lightyellow";
 			if (node.isStart) c.fillStyle = "blue";
 			if (node.isEnd) c.fillStyle = "red";
+			if (c.isPointInPath(node.path, mouse.x, mouse.y)) {
+				let red = Math.round(parseInt(`0x${c.fillStyle.slice(1, 3)}`) * 0.8).toString(16);
+				let green = Math.round(parseInt(`0x${c.fillStyle.slice(3, 5)}`) * 0.8).toString(16);
+				let blue = Math.round(parseInt(`0x${c.fillStyle.slice(5, 7)}`) * 0.8).toString(16);
+
+				c.fillStyle = "#" + red + green + blue;
+			}
 			c.fill(node.path);
 			c.stroke(node.path);
 		}
@@ -133,4 +140,7 @@ function renderGrid() {
 
 function animate() {
 	requestAnimationFrame(animate);
+
+	c.clearRect(0, 0, canvas.width, canvas.height);
+	renderGrid();
 }
