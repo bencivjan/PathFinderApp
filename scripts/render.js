@@ -76,15 +76,12 @@ function init() {
 	runBtn.addEventListener("click", () => {
 		// TODO: Run a* algorithm here
 		// eslint-disable-next-line no-undef
-		pathTrace(astar(gridVals, gridVals[0][0], gridVals[10][15]));
+		pathTrace(astar(gridVals, gridVals[2][3], gridVals[15][14]));
 	});
 
 	clearBtn.addEventListener("click", () => initGrid(cells));
 
 	initGrid(cells);
-
-	gridVals[0][0].isStart = true;
-	gridVals[10][15].isEnd = true;
 }
 
 // INITIALIZE GRID
@@ -117,6 +114,8 @@ function initGrid(cellNum) {
 			gridVals[x][y] = node;
 		}
 	}
+	gridVals[2][3].isStart = true;
+	gridVals[15][14].isEnd = true;
 }
 
 // RENDERS GRID
@@ -131,11 +130,13 @@ function renderGrid() {
 			if (node.isPath) c.fillStyle = "gold";
 			if (node.isStart) c.fillStyle = "green";
 			if (node.isEnd) c.fillStyle = "red";
-			if (c.isPointInPath(node.path, mouse.x, mouse.y)) {
+			if (c.isPointInPath(node.path, mouse.x, mouse.y) /*&& node.isStart*/) {
 				let red = Math.round(parseInt(`0x${c.fillStyle.slice(1, 3)}`) * 0.8).toString(16);
 				let green = Math.round(parseInt(`0x${c.fillStyle.slice(3, 5)}`) * 0.8).toString(16);
 				let blue = Math.round(parseInt(`0x${c.fillStyle.slice(5, 7)}`) * 0.8).toString(16);
-
+				// console.log(red);
+				// console.log(green);
+				// console.log(blue);
 				c.fillStyle = "#" + red + green + blue;
 			}
 			c.fill(node.path);
