@@ -4,11 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pathfinder Simulation</title>
-    <link rel="stylesheet" href="public/styles.css">
+    <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
+    <div id="navButtons">
+        <button id="run" class="selected">Find Path</button>
+        <button id="clear">Clear</button>
+    </div>
+    <div id="selectorButtons">
+        <button id="startSelect">Select Start Node</button>
+        <button id="endSelect">Select End Node</button>
+    </div>
     <canvas width="500" height="500" id="canvas">Your browser does not support this app</canvas>
 </body>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.10.2/underscore-min.js"></script> -->
-<script src="public/render.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.10.2/underscore-min.js"></script>
+<!-- <script src="scripts/astar.js"></script> -->
+<script src="scripts/render.js"></script>
 </html>

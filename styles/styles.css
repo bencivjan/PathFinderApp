@@ -7,6 +7,16 @@
 	border: 0.5px solid gray;
 }
 
+#navButtons,
+#selectorButtons {
+	text-align: center;
+	margin: 30px auto;
+}
+
+.selected {
+	background-color: lightgoldenrodyellow;
+}
+
 html,
 body {
 	margin: 0;
