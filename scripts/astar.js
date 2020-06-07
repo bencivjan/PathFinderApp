@@ -1,12 +1,10 @@
+// eslint-disable-next-line no-unused-vars
 function astar(grid, start, end) {
 	let open = [];
 	let closed = [];
 	let current;
 	start.g = distance(start, start);
 	start.h = distance(start, end);
-
-	//FOR PRINTING PURPOSES
-	start.displayVal = "Start";
 
 	open.push(start);
 
@@ -25,10 +23,6 @@ function astar(grid, start, end) {
 		}
 		let neighbors = getNeighbors(current, grid);
 		for (let neighbor of neighbors) {
-			if (neighbor.isWall) {
-				// THIS IS ONLY FOR PRINTING/DEBUGGING PURPOSES
-				neighbor.displayVal = "[XXX]";
-			}
 			// If neighbor is not walkable or in the closed list, skip to next neighbor
 			if (neighbor.isWall || closed.indexOf(neighbor) >= 0) {
 				continue;
@@ -72,7 +66,8 @@ function getNeighbors(current, grid) {
 			let neighX = current.xCoord + x;
 			let neighY = current.yCoord + y;
 
-			if (neighX >= 0 && neighX < 10 && neighY >= 0 && neighY < 10) {
+			// eslint-disable-next-line no-undef
+			if (neighX >= 0 && neighX < cells && neighY >= 0 && neighY < cells) {
 				neighbors.push(grid[neighX][neighY]);
 			}
 		}
@@ -80,12 +75,12 @@ function getNeighbors(current, grid) {
 	return neighbors;
 }
 
+// eslint-disable-next-line no-unused-vars
 function pathTrace(last) {
 	let next = last;
 
-	while (next.parent.displayVal != "Start") {
-		next.parent.displayVal = "[---]";
+	while (!next.parent.isStart) {
+		next.parent.isPath = true;
 		next = next.parent;
 	}
-	last.displayVal = "End";
 }

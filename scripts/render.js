@@ -20,6 +20,7 @@ class GridNode {
 		this._xCoord = xCoord;
 		this._yCoord = yCoord;
 		this.path = path;
+		// this.color = color;
 		this.g = g;
 		this.h = h;
 	}
@@ -74,11 +75,16 @@ function init() {
 
 	runBtn.addEventListener("click", () => {
 		// TODO: Run a* algorithm here
+		// eslint-disable-next-line no-undef
+		pathTrace(astar(gridVals, gridVals[0][0], gridVals[10][15]));
 	});
 
 	clearBtn.addEventListener("click", () => initGrid(cells));
 
 	initGrid(cells);
+
+	gridVals[0][0].isStart = true;
+	gridVals[10][15].isEnd = true;
 }
 
 // INITIALIZE GRID
@@ -122,8 +128,8 @@ function renderGrid() {
 			c.lineWidth = 2;
 			c.fillStyle = "#eeeeee";
 			if (node.isWall) c.fillStyle = "lightblue";
-			if (node.isPath) c.fillStyle = "lightyellow";
-			if (node.isStart) c.fillStyle = "blue";
+			if (node.isPath) c.fillStyle = "gold";
+			if (node.isStart) c.fillStyle = "green";
 			if (node.isEnd) c.fillStyle = "red";
 			if (c.isPointInPath(node.path, mouse.x, mouse.y)) {
 				let red = Math.round(parseInt(`0x${c.fillStyle.slice(1, 3)}`) * 0.8).toString(16);
