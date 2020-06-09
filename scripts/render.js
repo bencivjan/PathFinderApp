@@ -42,6 +42,26 @@ class GridNode {
 	get f() {
 		return this.g + this.h;
 	}
+
+	setNodeSelect() {
+		if (this.isStart) {
+			startNodeSelect = true;
+		} else if (this.isEnd) {
+			endNodeSelect = true;
+		} else {
+			startNodeSelect = false;
+			endNodeSelect = false;
+		}
+	}
+	setNode() {
+		if (startNodeSelect) {
+			this.isStart = true;
+			startNode = this;
+		} else if (endNodeSelect) {
+			this.isEnd = true;
+			endNode = this;
+		}
+	}
 }
 
 //==================
@@ -49,7 +69,6 @@ class GridNode {
 //==================
 
 init();
-// initStartAndEndNodes();
 animate();
 
 // INITIALIZATION FUNCTION
@@ -74,23 +93,6 @@ function init() {
 		mouseDown = false;
 	});
 
-	// canvas.addEventListener("mousedown", event => {
-	// 	// TODO: Improve searching
-
-	// 	// Loop through all nodes to check if click event happened in it
-	// 	outer: for (let x in gridVals) {
-	// 		for (let y in gridVals[x]) {
-	// 			let node = gridVals[x][y];
-	// 			// Check if click happened in this node
-	// 			if (c.isPointInPath(node.path, event.offsetX, event.offsetY)) {
-	// 				node.isWall = !node.isWall;
-	// 				//Break search if we found target
-	// 				break outer;
-	// 			}
-	// 		}
-	// 	}
-	// });
-
 	runBtn.addEventListener("click", () => {
 		// TODO: Run a* algorithm here
 		// eslint-disable-next-line no-undef
@@ -100,6 +102,7 @@ function init() {
 	clearBtn.addEventListener("click", () => initGrid(cells));
 
 	initGrid(cells);
+	initStartAndEndNodes([ 1, 10 ], [ 18, 10 ]);
 }
 
 // INITIALIZE GRID
@@ -134,14 +137,13 @@ function initGrid(cellNum) {
 			gridVals[x][y] = node;
 		}
 	}
-	if (!startNode || !endNode) initStartAndEndNodes();
 }
 
-function initStartAndEndNodes() {
+function initStartAndEndNodes(start, end) {
 	// Initial start and end nodes
-	startNode = gridVals[1][10];
+	startNode = gridVals[start[0]][start[1]];
 	startNode.isStart = true;
-	endNode = gridVals[18][10];
+	endNode = gridVals[end[0]][end[1]];
 	endNode.isEnd = true;
 }
 
@@ -160,26 +162,9 @@ function renderGrid() {
 
 			if (c.isPointInPath(node.path, mouse.x, mouse.y)) {
 				if (mouseDown) {
-					if (startNodeSelect) {
-						node.isStart = true;
-						startNode = node;
-					} else if (endNodeSelect) {
-						node.isEnd = true;
-						endNode = node;
-					}
+					node.setNode();
 
-					// For start and end node dragging
-					if (node.isStart) {
-						startNodeSelect = true;
-					} else if (node.isEnd) {
-						endNodeSelect = true;
-					} else {
-						startNodeSelect = false;
-						endNodeSelect = false;
-
-						node.isWall = true;
-						if (mouse.shiftPress) node.isWall = false;
-					}
+					node.setNodeSelect();
 
 					if (lastNode && (lastNode.xCoord !== node.xCoord || lastNode.yCoord !== node.yCoord)) {
 						if (startNodeSelect) lastNode.isStart = false;
@@ -189,6 +174,9 @@ function renderGrid() {
 						lastNode = node;
 					} else if (node.isEnd) {
 						lastNode = node;
+					} else {
+						node.isWall = true;
+						if (mouse.shiftPress) node.isWall = false;
 					}
 				} else {
 					startNodeSelect = false;
