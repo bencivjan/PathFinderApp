@@ -11,11 +11,15 @@
         <button id="run" class="selected">Find Path</button>
         <button id="clear">Clear</button>
     </div>
-    <div id="selectorButtons">
-        <button id="startSelect">Select Start Node</button>
-        <button id="endSelect">Select End Node</button>
+    <canvas width="550" height="550" id="canvas">Your browser does not support this app</canvas>
+    <div id="instructions">
+        <p>Instructions:</p>
+        <p>This is a pathfinding simulator that uses the A* pathfinding algorithm to find the shortest path between
+            the start (green) and end (red) nodes.</p>
+        <p>Click and drag the start or end nodes to reposition.</p>
+        <p>Click on an empty node to make it a wall</p>
+        <p>Click while holding the "shift" key to get rid of a wall</p>
     </div>
-    <canvas width="500" height="500" id="canvas">Your browser does not support this app</canvas>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.10.2/underscore-min.js"></script>
 <script src="scripts/astar.js"></script>
