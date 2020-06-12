@@ -166,16 +166,18 @@ function renderGrid() {
 		for (let y in gridVals[x]) {
 			let node = gridVals[x][y];
 			c.strokeStyle = "gray";
-			c.lineWidth = 1;
-			c.fillStyle = "#eeeeee";
+			c.lineWidth = 0.2;
+			c.fillStyle = "#fafafa";
 			//For showing algorithm
-			if (node.isOpen) c.fillStyle = "pink";
-			if (node.isClosed) c.fillStyle = "lightseagreen";
+			if (node.isOpen) c.fillStyle = "#bde2d3"; //light teal
+			if (node.isClosed) c.fillStyle = "#80b2b0"; //teal
 
-			if (node.isWall) c.fillStyle = "lightblue";
-			if (node.isPath) c.fillStyle = "gold";
-			if (node.isStart) c.fillStyle = "green";
-			if (node.isEnd) c.fillStyle = "red";
+			if (node.isWall) c.fillStyle = "#464c61"; //#464c61
+			// #585f79
+			//#888888
+			if (node.isPath) c.fillStyle = "#f9be39"; //gold
+			if (node.isStart) c.fillStyle = "#3f4fa2"; //blueish
+			if (node.isEnd) c.fillStyle = "#ee322f"; //red-orange
 
 			if (c.isPointInPath(node.path, mouse.x, mouse.y)) {
 				if (mouseDown) {
@@ -208,6 +210,7 @@ function renderGrid() {
 				if (blue.length === 1) blue = "0" + blue;
 
 				c.fillStyle = "#" + red + green + blue;
+				console.log(c.fillStyle);
 			}
 
 			c.fill(node.path);
