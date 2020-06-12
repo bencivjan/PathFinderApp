@@ -25,6 +25,7 @@ let endNodeSelect = false;
 let startNode;
 let endNode;
 let lastNode;
+// eslint-disable-next-line no-unused-vars
 let showAlg;
 
 class GridNode {
@@ -52,9 +53,6 @@ class GridNode {
 			startNodeSelect = true;
 		} else if (this.isEnd) {
 			endNodeSelect = true;
-		} else {
-			startNodeSelect = false;
-			endNodeSelect = false;
 		}
 	}
 	setNode() {
@@ -103,8 +101,12 @@ function init() {
 		// TODO: Run a* algorithm here
 		showAlg = showAlgorithmCheckbox.checked;
 
-		// eslint-disable-next-line no-undef
-		pathTrace(astar(gridVals, startNode, endNode));
+		(async () => {
+			// eslint-disable-next-line no-undef
+			let result = await astar(gridVals, startNode, endNode);
+			// eslint-disable-next-line no-undef
+			pathTrace(result);
+		})();
 	});
 
 	resetBtn.addEventListener("click", () => clearPath());
@@ -167,8 +169,8 @@ function renderGrid() {
 			c.lineWidth = 1;
 			c.fillStyle = "#eeeeee";
 			//For showing algorithm
-			if (node.isClosed) c.fillStyle = "purple";
 			if (node.isOpen) c.fillStyle = "pink";
+			if (node.isClosed) c.fillStyle = "lightseagreen";
 
 			if (node.isWall) c.fillStyle = "lightblue";
 			if (node.isPath) c.fillStyle = "gold";
@@ -226,6 +228,8 @@ function clearPath() {
 		for (let y in gridVals[x]) {
 			let node = gridVals[x][y];
 			node.isPath = false;
+			node.isOpen = false;
+			node.isClosed = false;
 			node.g = Number.POSITIVE_INFINITY;
 			node.h = Number.POSITIVE_INFINITY;
 			node.parent = undefined;

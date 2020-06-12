@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-function astar(grid, start, end) {
+async function astar(grid, start, end) {
 	let open = [];
 	let closed = [];
 	let current;
@@ -9,6 +9,16 @@ function astar(grid, start, end) {
 	open.push(start);
 
 	while (open.length > 0) {
+		// eslint-disable-next-line no-undef
+		if (showAlg) {
+			for (let node of open) {
+				node.isOpen = true;
+			}
+			for (let node of closed) {
+				node.isClosed = true;
+			}
+			await sleep(50);
+		}
 		// current is node with smallest f cost in open list
 		// eslint-disable-next-line no-undef
 		current = _.min(open, node => node.f);
@@ -84,4 +94,8 @@ function pathTrace(last) {
 		next.parent.child = next;
 		next = next.parent;
 	}
+}
+
+function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
 }
