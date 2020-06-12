@@ -4,6 +4,8 @@ let canvas;
 let c;
 let runBtn;
 let clearBtn;
+let resetBtn;
+let showAlgorithmCheckbox;
 
 // Mouse variables
 let mouse = {
@@ -17,11 +19,13 @@ let mouseDown = false;
 let cells = 20;
 let gridVals = [];
 
+// Animation variables
 let startNodeSelect = false;
 let endNodeSelect = false;
 let startNode;
 let endNode;
 let lastNode;
+let showAlg;
 
 class GridNode {
 	constructor(isWall, xCoord, yCoord, path, g = Number.POSITIVE_INFINITY, h = Number.POSITIVE_INFINITY) {
@@ -77,6 +81,8 @@ function init() {
 	c = canvas.getContext("2d", { alpha: false });
 	runBtn = document.querySelector("#run");
 	clearBtn = document.querySelector("#clear");
+	resetBtn = document.querySelector("#reset");
+	showAlgorithmCheckbox = document.querySelector("#animate");
 
 	// MOUSE MOVE LISTENER
 	canvas.addEventListener("mousemove", function(event) {
@@ -95,9 +101,13 @@ function init() {
 
 	runBtn.addEventListener("click", () => {
 		// TODO: Run a* algorithm here
+		showAlg = showAlgorithmCheckbox.checked;
+
 		// eslint-disable-next-line no-undef
 		pathTrace(astar(gridVals, startNode, endNode));
 	});
+
+	resetBtn.addEventListener("click", () => clearPath());
 
 	clearBtn.addEventListener("click", () => initGrid(cells));
 
@@ -133,6 +143,7 @@ function initGrid(cellNum) {
 			if (endNode && (node.xCoord === endNode.xCoord && node.yCoord === endNode.yCoord)) {
 				node.isEnd = true;
 			}
+
 			// Store the node in the grid array
 			gridVals[x][y] = node;
 		}
@@ -155,6 +166,10 @@ function renderGrid() {
 			c.strokeStyle = "gray";
 			c.lineWidth = 1;
 			c.fillStyle = "#eeeeee";
+			//For showing algorithm
+			if (node.isClosed) c.fillStyle = "purple";
+			if (node.isOpen) c.fillStyle = "pink";
+
 			if (node.isWall) c.fillStyle = "lightblue";
 			if (node.isPath) c.fillStyle = "gold";
 			if (node.isStart) c.fillStyle = "green";
@@ -162,6 +177,7 @@ function renderGrid() {
 
 			if (c.isPointInPath(node.path, mouse.x, mouse.y)) {
 				if (mouseDown) {
+					// Node dragging logic
 					node.setNode();
 
 					node.setNodeSelect();
@@ -170,14 +186,12 @@ function renderGrid() {
 						if (startNodeSelect) lastNode.isStart = false;
 						if (endNodeSelect) lastNode.isEnd = false;
 					}
-					if (node.isStart) {
-						lastNode = node;
-					} else if (node.isEnd) {
-						lastNode = node;
-					} else {
+					// Wall logic
+					if (!node.isStart && !node.isEnd) {
 						node.isWall = true;
 						if (mouse.shiftPress) node.isWall = false;
 					}
+					lastNode = node;
 				} else {
 					startNodeSelect = false;
 					endNodeSelect = false;
@@ -205,4 +219,17 @@ function animate() {
 
 	c.clearRect(0, 0, canvas.width, canvas.height);
 	renderGrid();
+}
+
+function clearPath() {
+	for (let x in gridVals) {
+		for (let y in gridVals[x]) {
+			let node = gridVals[x][y];
+			node.isPath = false;
+			node.g = Number.POSITIVE_INFINITY;
+			node.h = Number.POSITIVE_INFINITY;
+			node.parent = undefined;
+			node.child = undefined;
+		}
+	}
 }

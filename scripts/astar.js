@@ -81,6 +81,7 @@ function pathTrace(last) {
 
 	while (!next.parent.isStart) {
 		next.parent.isPath = true;
+		next.parent.child = next;
 		next = next.parent;
 	}
 }
