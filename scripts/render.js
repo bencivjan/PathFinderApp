@@ -177,8 +177,8 @@ function renderGrid() {
 			if (node.isOpen) c.fillStyle = "#bde2d3"; //light teal
 			if (node.isClosed) c.fillStyle = "#80b2b0"; //teal
 
-			if (node.isWall) c.fillStyle = "#464c61"; //#464c61
 			if (node.isPath) c.fillStyle = "#f9be39"; //gold
+			if (node.isWall) c.fillStyle = "#464c61"; //#464c61
 			if (node.isStart) c.fillStyle = "#3f4fa2"; //blueish
 			if (node.isEnd) c.fillStyle = "#ee322f"; //red-orange
 

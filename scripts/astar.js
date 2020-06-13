@@ -38,9 +38,9 @@ async function astar(grid, start, end) {
 				continue;
 			}
 			// If path to neighbor (g cost) is shorter than current
-			if (distance(start, neighbor) < neighbor.g) {
+			if (distance(start, current) + distance(current, neighbor) < neighbor.g) {
 				// Set f cost (through g and h)
-				neighbor.g = distance(start, neighbor);
+				neighbor.g = distance(start, current) + distance(current, neighbor);
 				neighbor.h = distance(neighbor, end);
 				// Set parent of neighbor to current
 				neighbor.parent = current;
@@ -51,6 +51,7 @@ async function astar(grid, start, end) {
 			}
 		}
 	}
+	// throw "PathNotFoundException";
 }
 
 function distance(current, destination) {
