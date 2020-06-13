@@ -3,21 +3,24 @@
 	padding: 0;
 	margin: 0 auto;
 	display: block;
-	/* width: 800px;*/
+	/* width: 100%; */
+	/* height: 100%; */
+	/* width: 30rem;
+	height: 30rem; */
 	/* border: 0.5px solid gray; */
 }
 
 #navButtons {
-	text-align: center;
 	margin: 50px auto 0;
+	width: 50%;
 }
 
 #instructions {
 	text-align: center;
 }
 
-.selected {
-	background-color: lightgoldenrodyellow;
+body > .container {
+	width: 100%;
 }
 
 html,

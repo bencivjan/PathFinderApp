@@ -77,7 +77,7 @@ function getNeighbors(current, grid) {
 			let neighY = current.yCoord + y;
 
 			// eslint-disable-next-line no-undef
-			if (neighX >= 0 && neighX < cells && neighY >= 0 && neighY < cells) {
+			if (neighX >= 0 && neighX < cellNumWide && neighY >= 0 && neighY < cellNumTall) {
 				neighbors.push(grid[neighX][neighY]);
 			}
 		}
@@ -86,13 +86,20 @@ function getNeighbors(current, grid) {
 }
 
 // eslint-disable-next-line no-unused-vars
-function pathTrace(last) {
+async function pathTrace(last) {
 	let next = last;
 
 	while (!next.parent.isStart) {
-		next.parent.isPath = true;
 		next.parent.child = next;
 		next = next.parent;
+	}
+
+	// For animation
+	next.isPath = true;
+	while (!next.child.isEnd) {
+		next.child.isPath = true;
+		next = next.child;
+		await sleep(20);
 	}
 }
 

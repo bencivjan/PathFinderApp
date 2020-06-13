@@ -16,7 +16,10 @@ let mouse = {
 let mouseDown = false;
 
 // Grid variables
-let cells = 20;
+let gridCellWidth = 25;
+let gridCellHeight = 25;
+let cellNumWide;
+let cellNumTall;
 let gridVals = [];
 
 // Animation variables
@@ -86,18 +89,19 @@ function init() {
 	canvas.addEventListener("mousemove", function(event) {
 		mouse.x = event.offsetX;
 		mouse.y = event.offsetY;
-		mouse.shiftPress = event.shiftKey;
 	});
 
 	// MOUSE CLICK LISTENER
-	window.addEventListener("mousedown", () => {
+	window.addEventListener("mousedown", event => {
 		mouseDown = true;
+		mouse.shiftPress = event.shiftKey;
 	});
 	window.addEventListener("mouseup", () => {
 		mouseDown = false;
 	});
 
 	runBtn.addEventListener("click", () => {
+		clearPath();
 		// TODO: Run a* algorithm here
 		showAlg = showAlgorithmCheckbox.checked;
 
@@ -105,34 +109,35 @@ function init() {
 			// eslint-disable-next-line no-undef
 			let result = await astar(gridVals, startNode, endNode);
 			// eslint-disable-next-line no-undef
-			pathTrace(result);
+			await pathTrace(result);
 		})();
 	});
 
 	resetBtn.addEventListener("click", () => clearPath());
 
-	clearBtn.addEventListener("click", () => initGrid(cells));
+	clearBtn.addEventListener("click", () => initGrid(gridCellWidth, gridCellHeight));
 
-	initGrid(cells);
-	initStartAndEndNodes([ 1, 10 ], [ 18, 10 ]);
+	initGrid(gridCellWidth, gridCellHeight);
+
+	initStartAndEndNodes([ 1, Math.round(cellNumTall / 2) ], [ cellNumWide - 2, Math.round(cellNumTall / 2) ]);
 }
 
 // INITIALIZE GRID
-function initGrid(cellNum) {
+function initGrid(cellWidth, cellHeight) {
 	const offset = 80;
 	const height = canvas.height - offset;
 	const width = canvas.width - offset;
 
-	let cellWidth = width / cellNum;
-	let cellHeight = height / cellNum;
+	cellNumWide = Math.round(width / cellWidth);
+	cellNumTall = Math.round(height / cellHeight);
 
 	gridVals = [];
 
-	for (let x = 0; x < cellNum; x++) {
+	for (let x = 0; x < cellNumWide; x++) {
 		// Create new nested array
-		gridVals.push(new Array(cellNum));
+		gridVals.push(new Array(cellNumTall));
 
-		for (let y = 0; y < cellNum; y++) {
+		for (let y = 0; y < cellNumTall; y++) {
 			let node = new GridNode(false, x, y);
 			// Create rectangle path and store in GridNode object
 			node.path = new Path2D();
@@ -167,14 +172,12 @@ function renderGrid() {
 			let node = gridVals[x][y];
 			c.strokeStyle = "gray";
 			c.lineWidth = 0.2;
-			c.fillStyle = "#fafafa";
+			c.fillStyle = "#fafafa"; // light gray
 			//For showing algorithm
 			if (node.isOpen) c.fillStyle = "#bde2d3"; //light teal
 			if (node.isClosed) c.fillStyle = "#80b2b0"; //teal
 
 			if (node.isWall) c.fillStyle = "#464c61"; //#464c61
-			// #585f79
-			//#888888
 			if (node.isPath) c.fillStyle = "#f9be39"; //gold
 			if (node.isStart) c.fillStyle = "#3f4fa2"; //blueish
 			if (node.isEnd) c.fillStyle = "#ee322f"; //red-orange
@@ -210,7 +213,6 @@ function renderGrid() {
 				if (blue.length === 1) blue = "0" + blue;
 
 				c.fillStyle = "#" + red + green + blue;
-				console.log(c.fillStyle);
 			}
 
 			c.fill(node.path);
