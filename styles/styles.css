@@ -1,22 +1,21 @@
 #canvas {
-	/* background-color: whitesmoke; */
 	padding: 0;
 	margin: 0 auto;
 	display: block;
-	/* width: 100%; */
-	/* height: 100%; */
-	/* width: 30rem;
-	height: 30rem; */
-	/* border: 0.5px solid gray; */
 }
 
 #navButtons {
 	margin: 50px auto 0;
 	width: 50%;
+	margin-bottom: 1rem;
 }
 
-#instructions {
-	text-align: center;
+#errorMessage {
+	display: none;
+	margin-top: 1rem;
+	margin-bottom: 0;
+	color: #ee322f;
+	animation: fadein 1s;
 }
 
 body > .container {
@@ -26,4 +25,13 @@ body > .container {
 html,
 body {
 	margin: 0;
+}
+
+@keyframes fadein {
+	from {
+		opacity: 0%;
+	}
+	to {
+		opacity: 100%;
+	}
 }

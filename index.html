@@ -10,7 +10,7 @@
 <body>
     <div class="container flex-column justify-content-center">
         <div id="navButtons" class="d-flex flex-row justify-content-around">
-            <button class="btn btn-outline-info" data-toggle="modal" data-target="#infoModal"">Instructions</button>
+            <button class="btn btn-outline-info" data-toggle="modal" data-target="#infoModal">Instructions</button>
             <button id="run" class="btn btn-success">Find Path</button>
             <button id="reset" class="btn btn-outline-warning">Reset Path</button>
             <button id="clear" class="btn btn-outline-danger">Clear All</button>
@@ -19,8 +19,10 @@
             <input type="checkbox" class="custom-control-input" id="animate">
             <label for="animate" class="custom-control-label">Visualize algorithm</label>
         </div>
+        <div class="d-flex flew-row justify-content-center">
+            <p id="errorMessage">Path not found: Try getting rid of some walls</p>
+        </div>
         <canvas class="d-flex" id="canvas" width="650" height="550">Your browser does not support this app</canvas>
-        <!-- width="550" height="550" -->
     </div>
     <!-- Modal -->
     <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">

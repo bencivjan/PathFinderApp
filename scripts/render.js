@@ -6,14 +6,15 @@ let runBtn;
 let clearBtn;
 let resetBtn;
 let showAlgorithmCheckbox;
+let errorMessage;
 
 // Mouse variables
 let mouse = {
 	x: undefined,
 	y: undefined,
-	shiftPress: undefined
+	shiftPress: undefined,
+	isDown: false
 };
-let mouseDown = false;
 
 // Grid variables
 let gridCellWidth = 25;
@@ -84,6 +85,7 @@ function init() {
 	clearBtn = document.querySelector("#clear");
 	resetBtn = document.querySelector("#reset");
 	showAlgorithmCheckbox = document.querySelector("#animate");
+	errorMessage = document.querySelector("#errorMessage");
 
 	// MOUSE MOVE LISTENER
 	canvas.addEventListener("mousemove", function(event) {
@@ -93,11 +95,11 @@ function init() {
 
 	// MOUSE CLICK LISTENER
 	window.addEventListener("mousedown", event => {
-		mouseDown = true;
+		mouse.isDown = true;
 		mouse.shiftPress = event.shiftKey;
 	});
 	window.addEventListener("mouseup", () => {
-		mouseDown = false;
+		mouse.isDown = false;
 	});
 
 	runBtn.addEventListener("click", () => {
@@ -106,10 +108,14 @@ function init() {
 		showAlg = showAlgorithmCheckbox.checked;
 
 		(async () => {
-			// eslint-disable-next-line no-undef
-			let result = await astar(gridVals, startNode, endNode);
-			// eslint-disable-next-line no-undef
-			await pathTrace(result);
+			try {
+				// eslint-disable-next-line no-undef
+				let result = await astar(gridVals, startNode, endNode);
+				// eslint-disable-next-line no-undef
+				await pathTrace(result);
+			} catch (e) {
+				errorMessage.style.display = "block";
+			}
 		})();
 	});
 
@@ -127,6 +133,8 @@ function initGrid(cellWidth, cellHeight) {
 	const offset = 80;
 	const height = canvas.height - offset;
 	const width = canvas.width - offset;
+
+	errorMessage.style.display = "none";
 
 	cellNumWide = Math.round(width / cellWidth);
 	cellNumTall = Math.round(height / cellHeight);
@@ -178,12 +186,12 @@ function renderGrid() {
 			if (node.isClosed) c.fillStyle = "#80b2b0"; //teal
 
 			if (node.isPath) c.fillStyle = "#f9be39"; //gold
-			if (node.isWall) c.fillStyle = "#464c61"; //#464c61
+			if (node.isWall) c.fillStyle = "#464c61"; //dark slate blueish
 			if (node.isStart) c.fillStyle = "#3f4fa2"; //blueish
 			if (node.isEnd) c.fillStyle = "#ee322f"; //red-orange
 
 			if (c.isPointInPath(node.path, mouse.x, mouse.y)) {
-				if (mouseDown) {
+				if (mouse.isDown) {
 					// Node dragging logic
 					node.setNode();
 
@@ -229,6 +237,8 @@ function animate() {
 }
 
 function clearPath() {
+	errorMessage.style.display = "none";
+
 	for (let x in gridVals) {
 		for (let y in gridVals[x]) {
 			let node = gridVals[x][y];

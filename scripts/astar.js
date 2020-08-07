@@ -51,7 +51,7 @@ async function astar(grid, start, end) {
 			}
 		}
 	}
-	// throw "PathNotFoundException";
+	throw "PathNotFound";
 }
 
 function distance(current, destination) {
