@@ -9,16 +9,6 @@ async function astar(grid, start, end) {
 	open.push(start);
 
 	while (open.length > 0) {
-		// eslint-disable-next-line no-undef
-		if (showAlg) {
-			for (let node of open) {
-				node.isOpen = true;
-			}
-			for (let node of closed) {
-				node.isClosed = true;
-			}
-			await sleep(50);
-		}
 		// current is node with smallest f cost in open list
 		// eslint-disable-next-line no-undef
 		current = _.min(open, node => node.f);
@@ -49,6 +39,16 @@ async function astar(grid, start, end) {
 			if (open.indexOf(neighbor) < 0) {
 				open.push(neighbor);
 			}
+		}
+		// eslint-disable-next-line no-undef
+		if (showAlg) {
+			for (let node of open) {
+				node.isOpen = true;
+			}
+			for (let node of closed) {
+				node.isClosed = true;
+			}
+			await sleep(50);
 		}
 	}
 	throw "PathNotFound";
