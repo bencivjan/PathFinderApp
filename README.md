@@ -1,4 +1,4 @@
-# [Node Pathfinder Web App](http://bencivjan.me/PathFinderApp)
+# [Node Pathfinder Web App](https://bencivjan.github.io/PathFinderApp/)
 ## Author: Ben Civjan
 
 This application uses the [A* search algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm) to find the path between two nodes in a graph.
